@@ -153,9 +153,9 @@ function setConsent(){
   } else{
     analyticsConsent = isConsentGranted('analytics_storage');
     marketingConsent = isConsentGranted('ad_storage');
-    log('- Analytics storage granted: ' + analyticsConsent);
-    log('- Ad storage granted: ' + marketingConsent);
   }
+  log('- Analytics storage granted: ' + analyticsConsent);
+  log('- Ad storage granted: ' + marketingConsent);
   if(analyticsConsent === true && marketingConsent === false){
     pushData = {"anonymize": "yes", "consent": "grant", "permissions": ["analytics"]};
   } else if(analyticsConsent === false && marketingConsent === true){
@@ -170,26 +170,29 @@ function setConsent(){
   return;
 }
 
-if(data.customConsentManagement && data.noConsentMode){
+if(data.customConsentManagement){
+  log('Default consent for Squeezely:');
   setConsent();
-} else if(data.customConsentManagement){
+}
+
+if(data.customConsentManagement && !data.noConsentMode){
   let counter = 0;
   let timestamp;
   addConsentListener('analytics_storage', (consentType, granted) => {
     if(granted){
-      if(counter > 0 && timestamp >= getTimestampMillis()-10) return;
-      counter++;
+      if(counter > 0 && timestamp >= getTimestampMillis()-1000) return;
       timestamp = getTimestampMillis();
-      log('Consent listener for Squeezely triggered!');
+      counter++;
+      log('Consent listener for Squeezely triggered:');
       setConsent();
     }
   });
   addConsentListener('ad_storage', (consentType, granted) => {
     if (granted) {
-      if (counter > 0 && timestamp >= getTimestampMillis()-10) return;
-      counter++;
+      if (counter > 0 && timestamp >= getTimestampMillis()-1000) return;
       timestamp = getTimestampMillis();
-      log('Consent listener for Squeezely triggered!');
+      counter++;
+      log('Consent listener for Squeezely triggered');
       setConsent();
     }
   });
@@ -400,6 +403,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 24/02/2022, 00:01:47
+Created on 16/03/2022, 14:32:19
 
 
