@@ -1,5 +1,8 @@
 homepage: "http://www.analytics-engineers.com"
 versions:
   # Latest version
+  - sha: a4aad1c51a8ebe7da886b86066f09ea266911b75
+    changeNotes: Push for default consent settings.
+  # Older versions
   - sha: 74684f48c06decf3192f07be60eba0a1cb31552f
     changeNotes: Initial Version
